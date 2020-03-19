@@ -14,17 +14,18 @@
     </div>
   </nav>
   <br>
-  <% if (username !== undefined) { %>
+  <% if (user === 'registering') { %>
+    <h4 style="margin-left: 15px;">Welcome to TinyApp!</h4>
+  <% } else if (user !== undefined) { %>
   <form action="/logout" method="POST">
-    <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= username %></i></label>
+    <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= user.email %></i></label>
     <button type="submit">Logout</button>
   </form>
   <% } else { %>
     <div>
-      <form action="/login" method="POST">
-        <label style="margin-left: 15px;" for="username">Username:</label>
-        <input style="padding-left: 5px" type="text" name="username" id="username" placeholder="john_doe">
-        <button type="submit">Login</button>
+      <form action="/register" method="GET">
+        <label style="margin-left: 15px;" for="username">New user?</label>
+        <button type="submit">Register</button>
       </form>
     </div>
   <% } %>

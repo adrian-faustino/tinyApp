@@ -1,5 +1,5 @@
 const express = require('express');
-const randomString = require('../src/utils');
+const utils = require('../src/utils');
 const router = express.Router();
 
 // Databases
@@ -9,16 +9,16 @@ const urlDatabase = {
 };
 
 const users = { 
-  "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
-  },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
-    password: "dishwasher-funk"
-  }
+//   "userRandomID": {
+//     id: "userRandomID", 
+//     email: "user@example.com", 
+//     password: "purple-monkey-dinosaur"
+//   },
+//  "user2RandomID": {
+//     id: "user2RandomID", 
+//     email: "user2@example.com", 
+//     password: "dishwasher-funk"
+//   }
 }
 
 //========= for '/'
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 router.get('/urls', (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
 
   console.log(`Cookies! `, req.cookies)
@@ -40,7 +40,7 @@ router.get('/urls', (req, res) => {
 });
 
 router.post('/urls', (req, res) => {
-  const UID = randomString(6);
+  const UID = utils.generateRandomString(6);
   const longURL = req.body.longURL;
   urlDatabase[UID] = longURL;
 
@@ -55,7 +55,7 @@ router.get('/urls.json', (req, res) => {
 
 router.get('/urls/new', (req, res) => {
   let templateVars = {
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
   res.render('urls_new', templateVars);
 });
@@ -64,7 +64,7 @@ router.get('/urls/:shortURL', (req, res) => {
   let templateVars = { 
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
   res.render('urls_show', templateVars);
 });
@@ -99,22 +99,28 @@ router.post('/login', (req, res) => {
 
 //========= for '/logout'
 router.post('/logout', (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect('/urls');
 });
 
 //========= for '/register'
 router.get('/register', (req, res) => {
   let templateVars = {
-    username: req.cookies['username']
+    user: 'registering'
   };
   res.render('urls_register', templateVars);
 });
 
 router.post('/register', (req, res) => {
   const userEmail = req.body.email;
+
+  for (let user in users) {
+    if (utils.checkValinObj(users[user], userEmail)) {
+      res.status(400).send('E-mail already exists!');
+    }
+  }
   const userPass = req.body.password;
-  const userID = randomString(5); // user ID length 5
+  const userID = utils.generateRandomString(5); // user ID length 5
 
   users[userID] = {
     id: userID,
