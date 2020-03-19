@@ -24,7 +24,7 @@ router.post('/urls', (req, res) => {
   const longURL = req.body.longURL;
   urlDatabase[UID] = longURL;
   
-  res.redirect('urls');
+  res.redirect(`/urls/${UID}`);
 });
 
 
@@ -43,6 +43,13 @@ router.get('/urls/:shortURL', (req, res) => {
     longURL: urlDatabase[req.params.shortURL]
   };
   res.render('urls_show', templateVars);
+});
+
+//========= for '/u/~'
+router.get('/u/:shortURL', (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];console.log(longURL);
+
+  res.redirect(longURL);
 });
 
 module.exports = router;
