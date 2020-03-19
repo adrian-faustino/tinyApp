@@ -7,10 +7,17 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+// for '/'
 router.get('/', (req, res) => {
   res.send('Hello!');
 });
 
+// for '/urls'
 
+
+// for '/urls/~'
+router.get('/urls.json', (req, res) => {
+  res.json(urlDatabase);
+});
 
 module.exports = router;
