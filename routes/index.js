@@ -37,14 +37,13 @@ router.get('/urls', (req, res) => {
 });
 
 router.post('/urls', (req, res) => {
-  const UID = utils.generateRandomString(6);
+  const userID = utils.generateRandomString(6);
   const longURL = req.body.longURL;
-  urlDatabase[UID] = longURL;
-  urlDatabase['userID'] = UID;
+  urlDatabase[userID] = { longURL, userID };
 
   console.log('URL Database! ',urlDatabase);
 
-  res.redirect(`/urls/${UID}`);
+  res.redirect(`/urls/${userID}`);
 });
 
 
@@ -67,7 +66,7 @@ router.get('/urls/new', (req, res) => {
 router.get('/urls/:shortURL', (req, res) => {
   let templateVars = { 
     shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
+    longURL: urlDatabase[req.params.shortURL].longURL,
     user: users[req.cookies['user_id']]
   };
   res.render('urls_show', templateVars);
@@ -83,7 +82,7 @@ router.post('/urls/:newURL', (req, res) => {
 
 //========= for '/u/~'
 router.get('/u/:shortURL', (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];console.log(longURL);
+  const longURL = urlDatabase[req.params.shortURL].longURL;
 
   res.redirect(longURL);
 });
