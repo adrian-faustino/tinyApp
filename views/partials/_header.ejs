@@ -14,11 +14,18 @@
     </div>
   </nav>
   <br>
-  <div>
-    <form action="/login" method="POST">
-      <label style="margin-left: 15px;" for="username">Username:</label>
-      <input style="padding-left: 5px" type="text" name="username" id="username" placeholder="john_doe">
-      <button type="submit">Login</button>
-    </form>
-  </div>
+  <% if (username !== undefined) { %>
+  <form action="/logout" method="POST">
+    <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= username %></i></label>
+    <button type="submit">Logout</button>
+  </form>
+  <% } else { %>
+    <div>
+      <form action="/login" method="POST">
+        <label style="margin-left: 15px;" for="username">Username:</label>
+        <input style="padding-left: 5px" type="text" name="username" id="username" placeholder="john_doe">
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  <% } %>
 </header>

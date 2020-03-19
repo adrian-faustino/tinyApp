@@ -15,7 +15,10 @@ router.get('/', (req, res) => {
 
 //========= for '/urls'
 router.get('/urls', (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies['username']
+  };
   res.render('urls_index', templateVars);
 });
 
@@ -70,7 +73,12 @@ router.post('/urls/:shortURL/delete', (req, res) => {
 router.post('/login', (req, res) => {
   res.cookie('username', req.body.username);
   console.log('Here are the cookies: ', req.cookies);
-  res.redirect('/');
+  res.redirect('/urls');
 });
 
+//========= for '/logout'
+router.post('/logout', (req, res) => {
+  res.clearCookie('username');
+  res.redirect('/urls');
+});
 module.exports = router;
