@@ -24,6 +24,10 @@ router.get('/urls.json', (req, res) => {
   res.json(urlDatabase);
 });
 
+router.get('/urls/new', (req, res) => {
+  res.render('urls_new');
+});
+
 router.get('/urls/:shortURL', (req, res) => {
   let templateVars = { 
     shortURL: req.params.shortURL,
