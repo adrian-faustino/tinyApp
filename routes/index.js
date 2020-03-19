@@ -9,16 +9,16 @@ const urlDatabase = {
 };
 
 const users = { 
-//   "userRandomID": {
-//     id: "userRandomID", 
-//     email: "user@example.com", 
-//     password: "purple-monkey-dinosaur"
-//   },
-//  "user2RandomID": {
-//     id: "user2RandomID", 
-//     email: "user2@example.com", 
-//     password: "dishwasher-funk"
-//   }
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
 }
 
 //========= for '/'
@@ -97,9 +97,21 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  res.cookie('username', req.body.username);
-  console.log('Here are the cookies: ', req.cookies);
-  res.redirect('/urls');
+  const userEmail = req.body.email;
+  const userPass = req.body.password;
+
+  for (let user in users) {
+    if (!utils.checkValinObj(users[user], userEmail)) {
+      console.log('User does not exist!');
+      res.status(400).send(`Username or password is incorrect!`);
+    } else if (users[user].password !== userPass) {
+      console.log('Wrong password!');
+      res.status(400).send(`Username or password is incorrect!`); 
+    } else {
+      res.cookie('user_id', users[user].id);
+      res.redirect('/urls');
+    }
+  }
 });
 
 //========= for '/logout'
