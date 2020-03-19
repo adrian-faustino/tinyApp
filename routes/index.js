@@ -12,6 +12,11 @@ router.get('/', (req, res) => {
   res.send('Hello!');
 });
 
+router.get("/hello", (req, res) => {
+  res.send("<html><body>Hello <b>World</b></body></html>\n");
+});
+
+
 // for '/urls'
 
 
