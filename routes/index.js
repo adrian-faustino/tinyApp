@@ -66,4 +66,11 @@ router.post('/urls/:shortURL/delete', (req, res) => {
   res.redirect('/urls');
 });
 
+//========= for '/login'
+router.post('/login', (req, res) => {
+  res.cookie('username', req.body.username);
+  console.log('Here are the cookies: ', req.cookies);
+  res.redirect('/');
+});
+
 module.exports = router;
