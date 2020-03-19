@@ -30,11 +30,12 @@ router.get('/', (req, res) => {
 router.get('/urls', (req, res) => {
   let templateVars = {
     urls: urlDatabase,
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
 
-  console.log(`Cookies! `, req.cookies)
-  console.log(users);
+  // console.log(`Cookies! `, req.cookies)
+  // console.log(users);
+  // console.log('here here' ,users[req.cookies['user_id']])
   
   res.render('urls_index', templateVars);
 });
@@ -55,7 +56,7 @@ router.get('/urls.json', (req, res) => {
 
 router.get('/urls/new', (req, res) => {
   let templateVars = {
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
   res.render('urls_new', templateVars);
 });
@@ -64,7 +65,7 @@ router.get('/urls/:shortURL', (req, res) => {
   let templateVars = { 
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies['username']
+    user: users[req.cookies['user_id']]
   };
   res.render('urls_show', templateVars);
 });
@@ -106,7 +107,7 @@ router.post('/logout', (req, res) => {
 //========= for '/register'
 router.get('/register', (req, res) => {
   let templateVars = {
-    username: req.cookies['username']
+    user: 'registering'
   };
   res.render('urls_register', templateVars);
 });
