@@ -54,6 +54,9 @@ router.get('/urls.json', (req, res) => {
 });
 
 router.get('/urls/new', (req, res) => {
+  if (users[req.cookies['user_id']] === undefined) {
+    res.redirect('/login');
+  }
   let templateVars = {
     user: users[req.cookies['user_id']]
   };
@@ -103,10 +106,12 @@ router.post('/login', (req, res) => {
   for (let user in users) {
     if (!utils.checkValinObj(users[user], userEmail)) {
       console.log('User does not exist!');
-      res.status(400).send(`Username or password is incorrect!`);
+      res.statusCode = 400;
+      res.send(`Username or password is incorrect!`);
     } else if (users[user].password !== userPass) {
       console.log('Wrong password!');
-      res.status(400).send(`Username or password is incorrect!`); 
+      res.statusCode = 400;
+      res.send(`Username or password is incorrect!`); 
     } else {
       res.cookie('user_id', users[user].id);
       res.redirect('/urls');
