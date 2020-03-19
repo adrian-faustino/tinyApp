@@ -1,4 +1,4 @@
-// recieves a num parameter, generates string with length num
+// returns random string based on given num parameter
 const generateRandomString = function(num) {
   const charPool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -11,4 +11,15 @@ const generateRandomString = function(num) {
   return result;
 };
 
-module.exports = generateRandomString;
+// checks if a value exist in an object. returns boolean
+const checkValinObj = function(obj, str) {
+  if (Object.values(obj).includes(str)) {
+    return true;
+  }
+  return false;
+};
+
+module.exports = {
+  generateRandomString,
+  checkValinObj
+} 
