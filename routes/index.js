@@ -1,5 +1,5 @@
 const express = require('express');
-const randomString = require('../src/utils');
+const utils = require('../src/utils');
 const router = express.Router();
 
 // Databases
@@ -9,16 +9,16 @@ const urlDatabase = {
 };
 
 const users = { 
-  "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
-  },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
-    password: "dishwasher-funk"
-  }
+//   "userRandomID": {
+//     id: "userRandomID", 
+//     email: "user@example.com", 
+//     password: "purple-monkey-dinosaur"
+//   },
+//  "user2RandomID": {
+//     id: "user2RandomID", 
+//     email: "user2@example.com", 
+//     password: "dishwasher-funk"
+//   }
 }
 
 //========= for '/'
@@ -33,15 +33,14 @@ router.get('/urls', (req, res) => {
     user: users[req.cookies['user_id']]
   };
 
-  // console.log(`Cookies! `, req.cookies)
-  // console.log(users);
-  // console.log('here here' ,users[req.cookies['user_id']])
+  console.log(`Cookies! `, req.cookies)
+  console.log(users);
   
   res.render('urls_index', templateVars);
 });
 
 router.post('/urls', (req, res) => {
-  const UID = randomString(6);
+  const UID = utils.generateRandomString(6);
   const longURL = req.body.longURL;
   urlDatabase[UID] = longURL;
 
@@ -100,7 +99,7 @@ router.post('/login', (req, res) => {
 
 //========= for '/logout'
 router.post('/logout', (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect('/urls');
 });
 
@@ -114,8 +113,14 @@ router.get('/register', (req, res) => {
 
 router.post('/register', (req, res) => {
   const userEmail = req.body.email;
+
+  for (let user in users) {
+    if (utils.checkValinObj(users[user], userEmail)) {
+      res.status(400).send('E-mail already exists!');
+    }
+  }
   const userPass = req.body.password;
-  const userID = randomString(5); // user ID length 5
+  const userID = utils.generateRandomString(5); // user ID length 5
 
   users[userID] = {
     id: userID,
