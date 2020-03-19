@@ -52,4 +52,10 @@ router.get('/u/:shortURL', (req, res) => {
   res.redirect(longURL);
 });
 
+//========= for '/u/~/delete'
+router.post('/urls/:shortURL/delete', (req, res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect('/urls');
+});
+
 module.exports = router;
