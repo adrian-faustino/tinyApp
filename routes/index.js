@@ -32,9 +32,6 @@ router.get('/urls', (req, res) => {
     urls: urlDatabase,
     user: users[req.cookies['user_id']]
   };
-
-  console.log(`Cookies! `, req.cookies)
-  console.log(users);
   
   res.render('urls_index', templateVars);
 });
@@ -43,6 +40,9 @@ router.post('/urls', (req, res) => {
   const UID = utils.generateRandomString(6);
   const longURL = req.body.longURL;
   urlDatabase[UID] = longURL;
+  urlDatabase['userID'] = UID;
+
+  console.log('URL Database! ',urlDatabase);
 
   res.redirect(`/urls/${UID}`);
 });
@@ -57,6 +57,7 @@ router.get('/urls/new', (req, res) => {
   if (users[req.cookies['user_id']] === undefined) {
     res.redirect('/login');
   }
+
   let templateVars = {
     user: users[req.cookies['user_id']]
   };
