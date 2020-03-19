@@ -11,6 +11,4 @@ const generateRandomString = function(num) {
   return result;
 };
 
-console.log(generateRandomString(6));
-
 module.exports = generateRandomString;

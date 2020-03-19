@@ -1,6 +1,6 @@
 const express = require('express');
 const randomString = require('../src/utils');
-router = express.Router();
+const router = express.Router();
 
 // Database containing SHORT URL and LONG URL
 const urlDatabase = {
@@ -20,8 +20,11 @@ router.get('/urls', (req, res) => {
 });
 
 router.post('/urls', (req, res) => {
-  console.log(req.body);
-  res.send('ok');
+  const UID = randomString(6);
+  const longURL = req.body.longURL;
+  urlDatabase[UID] = longURL;
+  
+  res.redirect('urls');
 });
 
 
