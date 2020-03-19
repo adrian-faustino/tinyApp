@@ -45,6 +45,14 @@ router.get('/urls/:shortURL', (req, res) => {
   res.render('urls_show', templateVars);
 });
 
+router.post('/urls/:newURL', (req, res) => {
+  const key = req.params.newURL;
+  const newURL = req.body.newURL;
+  urlDatabase[key] = newURL;
+
+  res.redirect('/urls');
+});
+
 //========= for '/u/~'
 router.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];console.log(longURL);
