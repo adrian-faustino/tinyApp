@@ -126,7 +126,7 @@ router.post('/login', (req, res) => {
   }
 
   res.statusCode = 400;
-  res.redirect('/error');
+  res.render('urls_error', { errorMsg: 'Invalid e-mail or password!', user: '' });
 });
 
 //========= for '/logout'
@@ -148,7 +148,8 @@ router.post('/register', (req, res) => {
 
   for (let user in users) {
     if (utils.checkValinObj(users[user], userEmail)) {
-      res.status(400).send('E-mail already exists!');
+      res,statusCode = 400;
+      res.render('urls_error', { errorMsg: 'E-mail already exists!', user: '' });
     }
   }
   
@@ -167,7 +168,7 @@ router.post('/register', (req, res) => {
 
 //========= for '/error'
 router.get('/error', (req, res) => {
-  res.render('urls_error', { user: 'error' });
+  res.render('urls_error', { user: 'registering' });
 });
 
 

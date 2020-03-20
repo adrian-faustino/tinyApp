@@ -12,29 +12,22 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
+    <% if (user !== undefined && user !== 'registering' && user !== 'existing' && user !== '') { %>
+      <form action="/logout" method="POST">
+        <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= user.email %></i></label>
+        <button type="submit">Logout</button>
+      </form>
+    <% } else if (user !== 'registering') { %>
+      <form action="/register" method="GET">
+        <label style="margin-left: 15px;" for="username">New user?</label>
+        <button type="submit">Register</button>
+      </form>
+    <% } %>
   </nav>
   <br>
   <% if (user === 'registering') { %>
     <h4 style="margin-left: 15px;">New user? Welcome to TinyApp!</h4>
   <% } else if (user === 'existing') { %>
-    <h4 style="margin-left: 15px;">Existing user? Welcome back!</h4>
-  <% } else if (user === 'error') { %>
-    <h6 style="margin-left: 15px; color: red;">Invalid username or password</h6>
-  <% } else if (user !== undefined) { %>
-  <form action="/logout" method="POST">
-    <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= user.email %></i></label>
-    <button type="submit">Logout</button>
-  </form>
-  <% } else { %>
-    <div>
-      <form action="/register" method="GET">
-        <label style="margin-left: 15px;" for="username">New user?</label>
-        <button type="submit">Register</button>
-      </form>
-      <form action="/login" method="GET">
-        <label style="margin-left: 15px;" for="username">Existing user?</label>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <h4 style="margin-left: 15px;">Existing user? Welcome back!</h4>  
   <% } %>
 </header>
