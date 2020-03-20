@@ -75,7 +75,7 @@ router.get('/urls/:shortURL', (req, res) => {
 router.post('/urls/:newURL', (req, res) => {
   const key = req.params.newURL;
   const newURL = req.body.newURL;
-  urlDatabase[key] = newURL;
+  urlDatabase[key].longURL = newURL;
 
   res.redirect('/urls');
 });
