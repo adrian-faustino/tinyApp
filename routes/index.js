@@ -28,22 +28,29 @@ router.get('/', (req, res) => {
 
 //========= for '/urls'
 router.get('/urls', (req, res) => {
-  let templateVars = {
-    database: urlDatabase,
-    user: users[req.cookies['user_id']]
-  };
-  
-  res.render('urls_index', templateVars);
+  const currentUser = req.cookies['user_id'];
+  console.log('Current user, ', currentUser)
+  if ( currentUser ) {
+    let templateVars = {
+      database: utils.urlsForUser(urlDatabase, currentUser),
+      user: users[currentUser]
+    };
+    
+    res.render('urls_index', templateVars);
+  } else {
+    res.redirect('/login');
+  }
 });
 
 router.post('/urls', (req, res) => {
-  const userID = utils.generateRandomString(6);
+  const userID = req.cookies['user_id'];
+  const shortURL = utils.generateRandomString(6);
   const longURL = req.body.longURL;
-  urlDatabase[userID] = { longURL, userID };
+  urlDatabase[shortURL] = { longURL, userID };
 
   console.log('URL Database! ',urlDatabase);
 
-  res.redirect(`/urls/${userID}`);
+  res.redirect(`/urls/${shortURL}`);
 });
 
 

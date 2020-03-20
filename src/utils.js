@@ -19,7 +19,24 @@ const checkValinObj = function(obj, str) {
   return false;
 };
 
+//returns all the URLs of the current user
+const urlsForUser = function(objDatabase, userID) {
+  const result = {};
+  for (let shortURL in objDatabase) {
+    const currentURL = objDatabase[shortURL];
+    if (currentURL.userID === userID) {
+      result[shortURL] = {
+        longURL: currentURL.longURL,
+        userID: userID
+      };
+    }
+  }
+  console.log('New Obj UTILS' ,result)
+  return result;
+};
+
 module.exports = {
   generateRandomString,
-  checkValinObj
+  checkValinObj,
+  urlsForUser
 } 
