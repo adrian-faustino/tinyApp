@@ -80,9 +80,13 @@ router.get('/urls/:shortURL', (req, res) => {
 });
 
 router.post('/urls/:newURL', (req, res) => {
-  const key = req.params.newURL;
-  const newURL = req.body.newURL;
-  urlDatabase[key].longURL = newURL;
+  const currentUser = req.cookies['user_id'];
+
+  if ( currentUser ) {
+    const key = req.params.newURL;
+    const newURL = req.body.newURL;
+    urlDatabase[key].longURL = newURL;
+  }
 
   res.redirect('/urls');
 });
@@ -96,7 +100,12 @@ router.get('/u/:shortURL', (req, res) => {
 
 //========= for '/u/~/delete'
 router.post('/urls/:shortURL/delete', (req, res) => {
-  delete urlDatabase[req.params.shortURL];
+  const currentUser = req.cookies['user_id'];
+
+  if ( currentUser ) {
+    delete urlDatabase[req.params.shortURL];
+  }
+
   res.redirect('/urls');
 });
 
