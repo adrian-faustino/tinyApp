@@ -35,8 +35,18 @@ const urlsForUser = function(objDatabase, userID) {
   return result;
 };
 
+// returns user ID given their email and database obj
+const getUserByEmail = function(email, database) {
+  for (let user in database) {
+    if (database[user].email === email) {
+      return user;
+    }
+  }
+};
+
 module.exports = {
   generateRandomString,
   checkValinObj,
-  urlsForUser
+  urlsForUser,
+  getUserByEmail
 } 
