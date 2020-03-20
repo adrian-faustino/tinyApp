@@ -42,6 +42,8 @@ const getUserByEmail = function(email, database) {
       return user;
     }
   }
+  
+  return false;
 };
 
 module.exports = {

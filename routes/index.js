@@ -126,7 +126,7 @@ router.post('/login', (req, res) => {
   }
 
   res.statusCode = 400;
-  res.send('Username or password is incorrect!');
+  res.redirect('/error');
 });
 
 //========= for '/logout'
@@ -163,6 +163,11 @@ router.post('/register', (req, res) => {
 
   req.session.user_id = userID;
   res.redirect('/urls');
+});
+
+//========= for '/error'
+router.get('/error', (req, res) => {
+  res.render('urls_error', { user: 'error' });
 });
 
 
