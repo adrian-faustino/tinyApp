@@ -4,8 +4,8 @@ const router = express.Router();
 
 // Databases
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  // "b2xVn2": "http://www.lighthouselabs.ca",
+  // "9sm5xK": "http://www.google.com"
 };
 
 const users = { 
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 //========= for '/urls'
 router.get('/urls', (req, res) => {
   let templateVars = {
-    urls: urlDatabase,
+    database: urlDatabase,
     user: users[req.cookies['user_id']]
   };
   

@@ -27,17 +27,17 @@
         </tr>
       </thead>
       <tbody>
-        <% for(let url in urls) { %>
+        <% for(let user in database) { %>
           <tr>
-            <td><%= url %></td>
-            <td><%= urls[url] %></td>
+            <td><%= user %></td>
+            <td><a href="<%= database[user].longURL %>"><%= database[user].longURL %></a></td>
             <td>
-              <form method="GET" action="/urls/<%= url %>">
+              <form method="GET" action="/urls/<%= user %>">
                 <button type="submit">EDIT</button>
               </form>
             </td>
             <td>
-              <form method="POST" action="/urls/<%= url %>/delete">
+              <form method="POST" action="/urls/<%= user %>/delete">
                 <button type="submit">DELETE</button>
               </form>
             </td>
