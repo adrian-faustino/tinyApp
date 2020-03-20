@@ -30,7 +30,6 @@ router.get('/', (req, res) => {
 //========= for '/urls'
 router.get('/urls', (req, res) => {
   const currentUser = req.cookies['user_id'];
-  console.log('Current user, ', currentUser)
   if ( currentUser ) {
     let templateVars = {
       database: utils.urlsForUser(urlDatabase, currentUser),
@@ -48,8 +47,6 @@ router.post('/urls', (req, res) => {
   const shortURL = utils.generateRandomString(6);
   const longURL = req.body.longURL;
   urlDatabase[shortURL] = { longURL, userID };
-
-  console.log('URL Database! ',urlDatabase);
 
   res.redirect(`/urls/${shortURL}`);
 });
@@ -121,19 +118,15 @@ router.post('/login', (req, res) => {
   const userPass = req.body.password;
 
   for (let user in users) {
-    if (!utils.checkValinObj(users[user], userEmail)) {
-      console.log('User does not exist!');
-      res.statusCode = 400;
-      res.send(`Username or password is incorrect!`);
-    } else if (users[user].password !== userPass) {
-      console.log('Wrong password!');
-      res.statusCode = 400;
-      res.send(`Username or password is incorrect!`); 
-    } else {
+    if (utils.checkValinObj(users[user], userEmail) && bcrypt.compareSync(userPass, users[user].password)) {
       res.cookie('user_id', users[user].id);
       res.redirect('/urls');
+      return;
     }
   }
+
+  res.statusCode = 400;
+  res.send('Username or password is incorrect!');
 });
 
 //========= for '/logout'
@@ -158,7 +151,8 @@ router.post('/register', (req, res) => {
       res.status(400).send('E-mail already exists!');
     }
   }
-  const userPass = req.body.password;
+  
+  const userPass = bcrypt.hashSync(req.body.password, 10);
   const userID = utils.generateRandomString(5); // user ID length 5
 
   users[userID] = {

@@ -31,7 +31,7 @@ const urlsForUser = function(objDatabase, userID) {
       };
     }
   }
-  console.log('New Obj UTILS' ,result)
+  
   return result;
 };
 
