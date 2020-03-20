@@ -19,7 +19,7 @@ const checkValinObj = function(obj, str) {
   return false;
 };
 
-//returns all the URLs of the current user
+// returns all the URLs of the current user
 const urlsForUser = function(objDatabase, userID) {
   const result = {};
   for (let shortURL in objDatabase) {

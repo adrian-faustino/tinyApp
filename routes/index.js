@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const utils = require('../src/utils');
 const router = express.Router();
 
-// Databases
+//========= Databases
 const urlDatabase = {
   // "b2xVn2": "http://www.lighthouselabs.ca",
   // "9sm5xK": "http://www.google.com"
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 
 //========= for '/urls'
 router.get('/urls', (req, res) => {
-  const currentUser = req.cookies['user_id'];
+  const currentUser = req.session.user_id;
   if ( currentUser ) {
     let templateVars = {
       database: utils.urlsForUser(urlDatabase, currentUser),
@@ -43,7 +43,7 @@ router.get('/urls', (req, res) => {
 });
 
 router.post('/urls', (req, res) => {
-  const userID = req.cookies['user_id'];
+  const userID = req.session.user_id;
   const shortURL = utils.generateRandomString(6);
   const longURL = req.body.longURL;
   urlDatabase[shortURL] = { longURL, userID };
@@ -58,12 +58,12 @@ router.get('/urls.json', (req, res) => {
 });
 
 router.get('/urls/new', (req, res) => {
-  if (users[req.cookies['user_id']] === undefined) {
+  if (users[req.session.user_id] === undefined) {
     res.redirect('/login');
   }
 
   let templateVars = {
-    user: users[req.cookies['user_id']]
+    user: users[req.session.user_id]
   };
   res.render('urls_new', templateVars);
 });
@@ -72,13 +72,13 @@ router.get('/urls/:shortURL', (req, res) => {
   let templateVars = { 
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
-    user: users[req.cookies['user_id']]
+    user: users[req.session.user_id]
   };
   res.render('urls_show', templateVars);
 });
 
 router.post('/urls/:newURL', (req, res) => {
-  const currentUser = req.cookies['user_id'];
+  const currentUser = req.session.user_id;
 
   if ( currentUser ) {
     const key = req.params.newURL;
@@ -98,7 +98,7 @@ router.get('/u/:shortURL', (req, res) => {
 
 //========= for '/u/~/delete'
 router.post('/urls/:shortURL/delete', (req, res) => {
-  const currentUser = req.cookies['user_id'];
+  const currentUser = req.session.user_id;
 
   if ( currentUser ) {
     delete urlDatabase[req.params.shortURL];
@@ -119,7 +119,7 @@ router.post('/login', (req, res) => {
 
   for (let user in users) {
     if (utils.checkValinObj(users[user], userEmail) && bcrypt.compareSync(userPass, users[user].password)) {
-      res.cookie('user_id', users[user].id);
+      req.session.user_id = users[user].id;
       res.redirect('/urls');
       return;
     }
@@ -131,7 +131,7 @@ router.post('/login', (req, res) => {
 
 //========= for '/logout'
 router.post('/logout', (req, res) => {
-  res.clearCookie('user_id');
+  req.session = null;
   res.redirect('/urls');
 });
 
@@ -161,7 +161,7 @@ router.post('/register', (req, res) => {
     password: userPass
   }
 
-  res.cookie('user_id', userID);
+  req.session.user_id = userID;
   res.redirect('/urls');
 });
 
