@@ -51,4 +51,4 @@ module.exports = {
   checkValinObj,
   urlsForUser,
   getUserByEmail
-} 
+};

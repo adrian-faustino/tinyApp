@@ -9,18 +9,18 @@ const urlDatabase = {
   // "9sm5xK": "http://www.google.com"
 };
 
-const users = { 
+const users = {
   "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
+    id: "userRandomID",
+    email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
+  "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
     password: "dishwasher-funk"
   }
-}
+};
 
 //========= for '/'
 router.get('/', (req, res) => {
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 //========= for '/urls'
 router.get('/urls', (req, res) => {
   const currentUser = req.session.user_id;
-  if ( currentUser ) {
+  if (currentUser) {
     let templateVars = {
       database: utils.urlsForUser(urlDatabase, currentUser),
       user: users[currentUser]
@@ -69,7 +69,7 @@ router.get('/urls/new', (req, res) => {
 });
 
 router.get('/urls/:shortURL', (req, res) => {
-  let templateVars = { 
+  let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
     user: users[req.session.user_id]
@@ -80,7 +80,7 @@ router.get('/urls/:shortURL', (req, res) => {
 router.post('/urls/:newURL', (req, res) => {
   const currentUser = req.session.user_id;
 
-  if ( currentUser ) {
+  if (currentUser) {
     const key = req.params.newURL;
     const newURL = req.body.newURL;
     urlDatabase[key].longURL = newURL;
@@ -100,7 +100,7 @@ router.get('/u/:shortURL', (req, res) => {
 router.post('/urls/:shortURL/delete', (req, res) => {
   const currentUser = req.session.user_id;
 
-  if ( currentUser ) {
+  if (currentUser) {
     delete urlDatabase[req.params.shortURL];
   }
 
@@ -160,7 +160,7 @@ router.post('/register', (req, res) => {
     id: userID,
     email: userEmail,
     password: userPass
-  }
+  };
 
   req.session.user_id = userID;
   res.redirect('/urls');

@@ -33,12 +33,12 @@
             <td><a href="<%= database[user].longURL %>"><%= database[user].longURL %></a></td>
             <td>
               <form method="GET" action="/urls/<%= user %>">
-                <button type="submit">EDIT</button>
+                <button style="cursor: pointer; border-radius: 5px;" type="submit">EDIT</button>
               </form>
             </td>
             <td>
               <form method="POST" action="/urls/<%= user %>/delete">
-                <button type="submit">DELETE</button>
+                <button class="btn btn-primary" style="background: red; border: none;" type="submit">DELETE</button>
               </form>
             </td>
           </tr>

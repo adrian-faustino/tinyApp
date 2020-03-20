@@ -15,12 +15,12 @@
     <% if (user !== undefined && user !== 'registering' && user !== 'existing' && user !== '') { %>
       <form action="/logout" method="POST">
         <label style="font-weight: bold; font-size: 20px; margin-left: 15px; margin-right: 5px;">Logged in as <i><%= user.email %></i></label>
-        <button type="submit">Logout</button>
+        <button class="btn btn-primary" type="submit">Logout</button>
       </form>
     <% } else if (user !== 'registering') { %>
       <form action="/register" method="GET">
-        <label style="margin-left: 15px;" for="username">New user?</label>
-        <button type="submit">Register</button>
+        <label style="margin-left: 15px; font-weight: bold;" for="username">New user?</label>
+        <button class="btn btn-primary" type="submit">Register</button>
       </form>
     <% } %>
   </nav>
